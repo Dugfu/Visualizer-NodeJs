@@ -1,0 +1,21 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "nodejs ./bin/www",
+    "dev": "nodemon -e js,jade,css,json --exec nodejs ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.0.0",
+    "bootstrap": "^4.3.1",
+    "cookie-parser": "~1.0.1",
+    "debug": "~0.7.4",
+    "express": "~4.0.0",
+    "jade": "~1.3.0",
+    "jquery": "^3.4.0",
+    "morgan": "~1.0.0",
+    "popper.js": "^1.15.0",
+    "static-favicon": "~1.0.0"
+  }
+}
