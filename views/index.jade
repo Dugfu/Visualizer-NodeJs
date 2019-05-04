@@ -1,5 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div(class='container-fluid' style='padding: 0;')
+    div(class='jumbotron')
+      h1= title
+    form
+      div(class='input-group mb-3')
+        div(class='input-group-prepend')
+          span(class='input-group-text') Test File
+        input(class='form-control-file border inputfile', type='file', name='file', id='file', multiple)
+        input(class='form-control', type='text')
+        div(class='input-group-append')
+          label(class='input-group-text label-primary', for='file') Choose a file

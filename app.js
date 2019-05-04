@@ -27,7 +27,7 @@ app.use('/js', express.static(path.join(__dirname,'/node_modules/popper.js/dist'
 app.use('/css', express.static(path.join(__dirname,'/node_modules/bootstrap/dist/css'))); // redirect CSS bootstrap
 
 app.use('/', routes);
-app.use('/users', users);
+// app.use('/users', users);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
