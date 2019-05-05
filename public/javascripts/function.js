@@ -1,9 +1,10 @@
 // Check for BlobURL support
-var blob = window.URL || window.webkitURL;
+let blob = window.URL || window.webkitURL;
 if (!blob) {
   console.log('Your browser does not support Blob URLs :(');
 }
-const audio = document.getElementById("myAudio");
+const audioVisu = new Audio();
+const audio = new Audio();
 const progress = document.getElementsByClassName("progress")[0];
 const play = document.getElementById("play");
 const mute = document.getElementById("mute");
@@ -11,13 +12,16 @@ const progressBar = document.getElementById("progress-bar");
 const soundRange = document.getElementById("soundRange");
 let progressFunc;
 let visuFunc;
-
+let ctx, audioSrc, analyser, frequencyData;
 //Event
 play.addEventListener("click", function(){
-  if(audio.paused)
-  audio.play();
-  else
-  audio.pause();
+  if(audio.paused){
+    audio.play();
+    audioVisu.play();
+  }else{
+    audio.pause();
+    audioVisu.pause();
+  }
 });
 
 
@@ -50,11 +54,15 @@ mute.addEventListener("click",function(e){
 })
 audio.addEventListener("play", function(){
   progressFunc = setInterval('progessBarSong();',100);
-  // visuFunc = setInterval('Visualizer();',100);
+  // visuFunc = setInterval('Visualizer()',100);
+  Visualizer();
 })
 audio.addEventListener("pause", function(){
   clearInterval(progressFunc);
   // clearInterval(visuFunc);
+  delete ctx;
+  delete audioSrc;
+  delete analyser;
 })
 
 //Functions
@@ -93,22 +101,28 @@ function selectFile()
       p.innerHTML = allFileName;
       let file = input.files[0],
       fileURL = blob.createObjectURL(file);
-      console.log(file);
-      console.log('File name: '+file.name);
-      console.log('File type: '+file.type);
-      console.log('File BlobURL: '+ fileURL);
+      // console.log(file);
+      // console.log('File name: '+file.name);
+      // console.log('File type: '+file.type);
+      // console.log('File BlobURL: '+ fileURL);
       // document.getElementById("myAudio").src = fileURL;
       audio.src = fileURL;
+      audioVisu.src = fileURL;
       // audio.controls = true;
       audio.volume = 0.5;
       soundRange.value = 50;
-      audio.play();
+      // audio.play();
       // document.getElementById("center").appendChild(audio);
-      console.log(audio);
+      // console.log(audio);
+      ctx = new AudioContext();
+      audioSrc = ctx.createMediaElementSource(audioVisu);
+      analyser = ctx.createAnalyser();
+      audioSrc.connect(analyser);
+      frequencyData = new Uint8Array(analyser.frequencyBinCount);
+      console.log(frequencyData);
     });
   }
 }
-
 //Progress Bar
 function progessBarSong() {
   if(!audio.paused){
@@ -119,6 +133,18 @@ function progessBarSong() {
   }
 }
 
-
+function Visualizer() {
+  requestAnimationFrame(Visualizer);
+  // update data in frequencyData
+  analyser.getByteFrequencyData(frequencyData);
+  // render frame based on values in frequencyData
+  // console.log(frequencyData);
+  let offset = 0;
+  for(let i=32; i<frequencyData.length; i += 1){
+    // console.log('bar-'+i);
+    let bar = document.getElementById('bar-'+i);
+    bar.style.height = frequencyData[i] + "px";
+  }
+}
 //Load
 setTimeout('selectFile();',1);

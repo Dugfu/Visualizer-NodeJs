@@ -44,3 +44,13 @@ label[for]{
 #progress-bar{
   transition: width .1s linear;
 }
+.bar{
+  position: fixed;
+  width: 0.09765625%;
+  /* width: 3.125%; */
+  bottom: 0;
+  /* left: calc(var(--offset) * 3.125%); */
+  left: calc(var(--offset) * 0.09765625%);
+  background-color: red;
+  /* height: 100px; */
+}
