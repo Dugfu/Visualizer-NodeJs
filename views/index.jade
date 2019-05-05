@@ -1,14 +1,27 @@
 extends layout
 
 block content
-  div(class='container-fluid' style='padding: 0;')
+  div(class='container' style='padding: 0;' id='center')
     div(class='jumbotron')
       h1= title
     form
       div(class='input-group mb-3')
         div(class='input-group-prepend')
           span(class='input-group-text') Test File
-        input(class='form-control-file border inputfile', type='file', name='file', id='file', multiple)
-        input(class='form-control', type='text')
+        input(class='border inputfile', type='file', name='file', id='file', accept="audio/mp3")
+        p(class='p-file') No song
         div(class='input-group-append')
           label(class='input-group-text label-primary', for='file') Choose a file
+    audio(preload="auto", id="myAudio")
+    button(class='btn btn-primary', id='play') Play/Pause
+    br
+    br
+    div(class="progress")
+      div(class="progress-bar progress-bar-striped progress-bar-animated", id="progress-bar")
+    br
+    label(for='soundRange') Sound Control
+    input(type="range", class="custom-range", id="soundRange", min="0", max="50" step="0.5")
+    br
+    br
+    button(class='btn btn-secondary', id='mute') Mute
+  script(src='/javascripts/function.js')
