@@ -13,15 +13,17 @@ const soundRange = document.getElementById("soundRange");
 let progressFunc;
 let visuFunc;
 let ctx, audioSrc, analyser, frequencyData;
-audio.volume = 0.5;
-soundRange.value = 50;
+audio.volume = 0.02;
+soundRange.value = 2;
 //Event
 play.addEventListener("click", function(){
   if(audio.paused){
     audio.play();
+    audioVisu.currentTime= audio.currentTime;
     audioVisu.play();
   }else{
     audio.pause();
+     audioVisu.currentTime= audio.currentTime;
     audioVisu.pause();
   }
 });
@@ -40,6 +42,7 @@ progress.addEventListener("click", function(e){
   console.log(seek);
   progressBar.style.width = percent + "%";
   audio.currentTime = seek;
+  audioVisu.currentTime =seek;
 })
 soundRange.addEventListener("change",function(){
   audio.volume = this.value/100;
@@ -121,7 +124,7 @@ function selectFile()
       analyser = ctx.createAnalyser();
       audioSrc.connect(analyser);
       frequencyData = new Uint8Array(analyser.frequencyBinCount);
-      console.log(frequencyData);
+      // console.log(frequencyData);
     });
   }
 }
@@ -136,6 +139,9 @@ function progessBarSong() {
 }
 
 function Visualizer() {
+   let time = document.getElementById("timer");
+   timer.innerHTML = "Audio : " + audio.currentTime + "/ AudioVisu : " + audioVisu.currentTime;
+   // audioVisu.currentTime = audio.currentTime;
   // requestAnimationFrame(Visualizer);
   // update data in frequencyData
   analyser.getByteFrequencyData(frequencyData);
@@ -152,12 +158,12 @@ function Visualizer() {
 
 function meanFromArray(array, start, end){
    let length = (end - start)+1;
-   console.log(length);
+   // console.log(length);
    let sum = 0, mean;
    for(let i=start; i<=end; i++){
       sum += array[i];
    }
-   console.log(sum);
+   // console.log(sum);
    mean = sum/length;
    return mean;
 }
