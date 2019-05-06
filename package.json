@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodejs ./bin/www",
-    "dev": "nodemon -e js,jade,css,json --exec nodejs ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon -e js,jade,css,json --exec node ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

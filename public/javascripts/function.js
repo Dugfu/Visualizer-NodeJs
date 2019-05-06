@@ -13,6 +13,8 @@ const soundRange = document.getElementById("soundRange");
 let progressFunc;
 let visuFunc;
 let ctx, audioSrc, analyser, frequencyData;
+audio.volume = 0.5;
+soundRange.value = 50;
 //Event
 play.addEventListener("click", function(){
   if(audio.paused){
@@ -54,12 +56,14 @@ mute.addEventListener("click",function(e){
 })
 audio.addEventListener("play", function(){
   progressFunc = setInterval('progessBarSong();',100);
-  // visuFunc = setInterval('Visualizer()',100);
-  Visualizer();
+  visuFunc = setInterval('Visualizer()',1);
+  // Visualizer();
 })
 audio.addEventListener("pause", function(){
   clearInterval(progressFunc);
-  // clearInterval(visuFunc);
+  clearInterval(visuFunc);
+  let bars = document.getElementsByClassName("bar");
+  for(let i=0; i<bars.length; i++)bars[i].style.height = "0px";
   delete ctx;
   delete audioSrc;
   delete analyser;
@@ -109,8 +113,6 @@ function selectFile()
       audio.src = fileURL;
       audioVisu.src = fileURL;
       // audio.controls = true;
-      audio.volume = 0.5;
-      soundRange.value = 50;
       // audio.play();
       // document.getElementById("center").appendChild(audio);
       // console.log(audio);
@@ -134,17 +136,30 @@ function progessBarSong() {
 }
 
 function Visualizer() {
-  requestAnimationFrame(Visualizer);
+  // requestAnimationFrame(Visualizer);
   // update data in frequencyData
   analyser.getByteFrequencyData(frequencyData);
   // render frame based on values in frequencyData
   // console.log(frequencyData);
   let offset = 0;
-  for(let i=32; i<frequencyData.length; i += 1){
+  for(let i=0; i<frequencyData.length; i += 32){
     // console.log('bar-'+i);
-    let bar = document.getElementById('bar-'+i);
-    bar.style.height = frequencyData[i] + "px";
+    let bar = document.getElementById('bar-'+(i+32));
+    bar.style.height = meanFromArray(frequencyData,i,i+31) + "px";
+    // console.log(bar);
   }
+}
+
+function meanFromArray(array, start, end){
+   let length = (end - start)+1;
+   console.log(length);
+   let sum = 0, mean;
+   for(let i=start; i<=end; i++){
+      sum += array[i];
+   }
+   console.log(sum);
+   mean = sum/length;
+   return mean;
 }
 //Load
 setTimeout('selectFile();',1);
