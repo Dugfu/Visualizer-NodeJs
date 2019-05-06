@@ -42,7 +42,11 @@ progress.addEventListener("click", function(e){
   console.log(seek);
   progressBar.style.width = percent + "%";
   audio.currentTime = seek;
+<<<<<<< Updated upstream
   audioVisu.currentTime =seek;
+=======
+  audioVisu.currentTime = seek;
+>>>>>>> Stashed changes
 })
 soundRange.addEventListener("change",function(){
   audio.volume = this.value/100;
@@ -66,7 +70,15 @@ audio.addEventListener("pause", function(){
   clearInterval(progressFunc);
   clearInterval(visuFunc);
   let bars = document.getElementsByClassName("bar");
+<<<<<<< Updated upstream
   for(let i=0; i<bars.length; i++)bars[i].style.height = "0px";
+=======
+  for(let i=1; i<bars.length; i += 1){
+    // console.log('bar-'+i);
+    let bar = document.getElementById('bar-'+i);
+    bar.style.height = "0px";
+  }
+>>>>>>> Stashed changes
   delete ctx;
   delete audioSrc;
   delete analyser;
@@ -139,16 +151,23 @@ function progessBarSong() {
 }
 
 function Visualizer() {
+<<<<<<< Updated upstream
    let time = document.getElementById("timer");
    timer.innerHTML = "Audio : " + audio.currentTime + "/ AudioVisu : " + audioVisu.currentTime;
    // audioVisu.currentTime = audio.currentTime;
+=======
+>>>>>>> Stashed changes
   // requestAnimationFrame(Visualizer);
   // update data in frequencyData
   analyser.getByteFrequencyData(frequencyData);
   // render frame based on values in frequencyData
   // console.log(frequencyData);
   let offset = 0;
+<<<<<<< Updated upstream
   for(let i=0; i<frequencyData.length; i += 32){
+=======
+  for(let i=1; i<frequencyData.length; i += 1){
+>>>>>>> Stashed changes
     // console.log('bar-'+i);
     let bar = document.getElementById('bar-'+(i+32));
     bar.style.height = meanFromArray(frequencyData,i,i+31) + "px";

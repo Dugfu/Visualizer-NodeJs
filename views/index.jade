@@ -24,6 +24,7 @@ block content
     br
     br
     button(class='btn btn-secondary', id='mute') Mute
+<<<<<<< Updated upstream
     - var n = 0
     - var i = 0
     div
@@ -31,4 +32,11 @@ block content
         div(class='bar', id='bar-#{n+=32}', style='--offset: #{i++};')
 
    div(style='position:fixed;top:5px;left:5px;', id="timer")
+=======
+  - var n = 0
+  - var i = 0
+  div
+    while n < 1024
+      div(class='bar', id='bar-#{n+=1}', style='--offset: #{i++};')
+>>>>>>> Stashed changes
   script(src='/javascripts/function.js')
